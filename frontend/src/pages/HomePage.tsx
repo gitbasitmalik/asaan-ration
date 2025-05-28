@@ -22,7 +22,7 @@ export default function HomePage() {
     let requestActivities: any[] = []
 
     // Fetch donations and sum all quantities
-    axios.get("http://localhost:8000/donations")
+    axios.get(`${process.env.VITE_API_URL}/donations`)
       .then(res => {
         const total = res.data.reduce(
           (sum: number, d: any) => sum + (Number(d.quantity) || 0),
@@ -45,7 +45,7 @@ export default function HomePage() {
       .catch(() => setDonationCount(0))
 
     // Fetch requests and count completed & open
-    axios.get("http://localhost:8000/request")
+    axios.get(`${process.env.VITE_API_URL}/request`)
       .then(res => {
         const completed = res.data.filter((r: any) => r.status === "completed").length
         setFamiliesHelped(completed)

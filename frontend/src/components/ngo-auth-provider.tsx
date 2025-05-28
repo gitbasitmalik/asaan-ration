@@ -40,7 +40,7 @@ export function NGOAuthProvider({ children }: { children: ReactNode }) {
   const login = async (email: string, password: string): Promise<boolean> => {
     setIsLoading(true)
     try {
-      const res = await axios.post("http://localhost:8000/ngo/login", { email, password })
+      const res = await axios.post(`${process.env.VITE_API_URL}/ngo/login`, { email, password })
       if (res.data.token) {
         localStorage.setItem("ngo_token", res.data.token)
         const decoded = jwtDecode<NGO>(res.data.token)
@@ -59,7 +59,7 @@ export function NGOAuthProvider({ children }: { children: ReactNode }) {
   const signup = async (ngoData: Omit<NGO, "_id"> & { password: string }): Promise<boolean> => {
     setIsLoading(true)
     try {
-      await axios.post("http://localhost:8000/ngo/signup", ngoData)
+      await axios.post(`${process.env.VITE_API_URL}/ngo/signup`, ngoData)
       setIsLoading(false)
       return true
     } catch (err: any) {
