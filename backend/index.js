@@ -17,7 +17,7 @@ const MONGO_URI = process.env.MONGO_URI;
 app.use(express.json());
 app.use(
   cors({
-    origin: "http://localhost:5173", // Update to your frontend domain in production
+   origin: "https://your-frontend.vercel.app", // Update to your frontend domain in production
     credentials: true,
   })
 );
@@ -141,7 +141,7 @@ app.patch("/donations/:id", async (req, res) => {
 });
 
 
-const JWT_SECRET = process.env.JWT_SECRET || "supersecret";
+const JWT_SECRET = process.env.JWT_SECRET ;
 
 app.post("/ngo/signup", async (req, res) => {
   try {

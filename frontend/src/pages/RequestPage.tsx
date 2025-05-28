@@ -30,7 +30,10 @@ export default function RequestPage() {
     try {
       const response = await axios.post(`${process.env.VITE_API_URL}/`, formData)
       // Handle success response
-    } catch (error) {}
+    } catch (error) {
+      console.error("Error submitting request:", error)
+      
+    }
   }
 
   const needTypes = [
