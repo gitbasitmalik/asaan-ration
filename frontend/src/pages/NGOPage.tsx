@@ -190,7 +190,7 @@ export default function NGOPage() {
   // Fetch requests and donations
   useEffect(() => {
     axios
-      .get(`${process.env.VITE_API_URL}/request`, {
+      .get("http://localhost:8000/request", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("ngo_token")}`,
         },
@@ -200,7 +200,7 @@ export default function NGOPage() {
   }, []);
   useEffect(() => {
     axios
-      .get(`${process.env.VITE_API_URL}/donations`, {
+      .get("http://localhost:8000/donations", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("ngo_token")}`,
         },
@@ -265,7 +265,7 @@ export default function NGOPage() {
         return;
       }
       await axios.patch(
-        `${process.env.VITE_API_URL}/request/${requestItem._id}`,
+        `http://localhost:8000/request/${requestItem._id}`,
         {
           status: "completed",
           completedBy: ngo._id || ngo.email,
@@ -275,7 +275,7 @@ export default function NGOPage() {
         }
       );
       await axios.patch(
-        `${process.env.VITE_API_URL}/donations/${donationItem._id}`,
+        `http://localhost:8000/donations/${donationItem._id}`,
         {
           quantity: qty - allocateQty,
         },

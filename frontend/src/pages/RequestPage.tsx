@@ -28,12 +28,9 @@ export default function RequestPage() {
   const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault()
     try {
-      const response = await axios.post(`${process.env.VITE_API_URL}/`, formData)
+      const response = await axios.post("http://localhost:8000/", formData)
       // Handle success response
-    } catch (error) {
-      console.error("Error submitting request:", error)
-      
-    }
+    } catch (error) {}
   }
 
   const needTypes = [

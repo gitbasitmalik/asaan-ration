@@ -41,8 +41,8 @@ export default function TransparencyPage() {
   useEffect(() => {
     setLoading(true)
     Promise.all([
-      axios.get(`${process.env.VITE_API_URL}/donations`),
-      axios.get(`${process.env.VITE_API_URL}/request`),
+      axios.get("http://localhost:8000/donations"),
+      axios.get("http://localhost:8000/request"),
     ])
       .then(([donRes, reqRes]) => {
         setDonations(donRes.data)

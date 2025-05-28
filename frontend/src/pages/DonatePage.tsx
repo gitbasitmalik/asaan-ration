@@ -39,7 +39,7 @@ export default function DonatePage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${process.env.VITE_API_URL}/donate`, formData);
+      const response = await axios.post("http://localhost:8000/donate", formData);
       // Optionally show a success message here
     } catch (error) {
       // Optionally show an error message here
