@@ -39,7 +39,10 @@ export default function DonatePage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:8000/donate", formData);
+      const response = await axios.post(
+        "http://localhost:8000/donate",
+        formData
+      );
       // Optionally show a success message here
     } catch (error) {
       // Optionally show an error message here
@@ -164,7 +167,13 @@ export default function DonatePage() {
                         }
                       >
                         <SelectTrigger>
-                          <SelectValue placeholder={language === "ur" ? "کھانے کی قسم منتخب کریں" : "Select food type"} />
+                          <SelectValue
+                            placeholder={
+                              language === "ur"
+                                ? "کھانے کی قسم منتخب کریں"
+                                : "Select food type"
+                            }
+                          />
                         </SelectTrigger>
                         <SelectContent>
                           {foodTypes.map((type) => (
@@ -176,35 +185,46 @@ export default function DonatePage() {
                       </Select>
                     </div>
                     <div className="space-y-2">
-                      <Label
-                        htmlFor="quantity"
-                        className={language === "ur" ? "font-urdu" : ""}
-                      >
-                        {language === "ur" ? "مقدار" : t("form.quantity")}
-                      </Label>
-                      <input
+                      <Input
                         type="number"
                         id="quantity"
-                        placeholder={language === "ur" ? "مثلاً 10" : "e.g., 10"}
+                        placeholder={
+                          language === "ur" ? "مثلاً 10" : "e.g., 10"
+                        }
                         value={formData.quantity}
                         onChange={(e) =>
                           setFormData({ ...formData, quantity: e.target.value })
                         }
                         required
-                        className="border px-3 py-2 rounded w-32"
+                        className="w-32"
                       />
-                      <select
+                      <Select
                         value={formData.quantityUnit}
-                        onChange={(e) =>
-                          setFormData({ ...formData, quantityUnit: e.target.value })
+                        onValueChange={(value) =>
+                          setFormData({ ...formData, quantityUnit: value })
                         }
-                        className="border px-2 py-2 rounded"
                       >
-                        <option value="">{language === "ur" ? "یونٹ منتخب کریں" : "Select Unit"}</option>
-                        <option value="kg">{language === "ur" ? "کلوگرام" : "kg"}</option>
-                        <option value="bag">{language === "ur" ? "بیگ" : "bag"}</option>
-                        <option value="litre">{language === "ur" ? "لیٹر" : "litre"}</option>
-                      </select>
+                        <SelectTrigger>
+                          <SelectValue
+                            placeholder={
+                              language === "ur"
+                                ? "یونٹ منتخب کریں"
+                                : "Select Unit"
+                            }
+                          />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="kg">
+                            {language === "ur" ? "کلوگرام" : "kg"}
+                          </SelectItem>
+                          <SelectItem value="bag">
+                            {language === "ur" ? "بیگ" : "bag"}
+                          </SelectItem>
+                          <SelectItem value="litre">
+                            {language === "ur" ? "لیٹر" : "litre"}
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
                     </div>
                   </div>
 
@@ -217,7 +237,11 @@ export default function DonatePage() {
                     </Label>
                     <Textarea
                       id="description"
-                      placeholder={language === "ur" ? "عطیہ کی مزید تفصیلات..." : "Additional details about the donation..."}
+                      placeholder={
+                        language === "ur"
+                          ? "عطیہ کی مزید تفصیلات..."
+                          : "Additional details about the donation..."
+                      }
                       value={formData.description}
                       onChange={(e) =>
                         setFormData({
@@ -247,7 +271,9 @@ export default function DonatePage() {
                   }`}
                 >
                   <Package className="h-5 w-5" />
-                  {language === "ur" ? "عطیہ رہنما اصول" : "Donation Guidelines"}
+                  {language === "ur"
+                    ? "عطیہ رہنما اصول"
+                    : "Donation Guidelines"}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">

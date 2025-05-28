@@ -100,7 +100,7 @@ export default function HomePage() {
       <section className="bg-gradient-to-br from-primary/10 via-background to-secondary/10 py-20 px-4">
         <div className="max-w-7xl mx-auto text-center">
           <h1 className={`text-4xl md:text-6xl font-bold mb-6 ${language === "ur" ? "font-urdu" : ""}`}>
-            {language === "ur" ? "راشن برج" : t("home.title")}
+            {language === "ur" ? " آسان راشن" : t("home.title")}
           </h1>
           <p className={`text-xl md:text-2xl text-muted-foreground mb-8 ${language === "ur" ? "font-urdu" : ""}`}>
             {language === "ur"
