@@ -40,7 +40,7 @@ export default function DonatePage() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:8000/donate",
+        "https://asaan-ration-d15a.vercel.app/donate",
         formData
       );
       // Optionally show a success message here

@@ -190,7 +190,7 @@ export default function NGOPage() {
   // Fetch requests and donations
   useEffect(() => {
     axios
-      .get("http://localhost:8000/request", {
+      .get("https://asaan-ration-d15a.vercel.app/request", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("ngo_token")}`,
         },
@@ -200,7 +200,7 @@ export default function NGOPage() {
   }, []);
   useEffect(() => {
     axios
-      .get("http://localhost:8000/donations", {
+      .get("https://asaan-ration-d15a.vercel.app/donations", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("ngo_token")}`,
         },
@@ -265,22 +265,26 @@ export default function NGOPage() {
         return;
       }
       await axios.patch(
-        `http://localhost:8000/request/${requestItem._id}`,
+        `https://asaan-ration-d15a.vercel.app/request/${requestItem._id}`,
         {
           status: "completed",
           completedBy: ngo._id || ngo.email,
         },
         {
-          headers: { Authorization: `Bearer ${localStorage.getItem("ngo_token")}` },
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("ngo_token")}`,
+          },
         }
       );
       await axios.patch(
-        `http://localhost:8000/donations/${donationItem._id}`,
+        `https://asaan-ration-d15a.vercel.app/donations/${donationItem._id}`,
         {
           quantity: qty - allocateQty,
         },
         {
-          headers: { Authorization: `Bearer ${localStorage.getItem("ngo_token")}` },
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("ngo_token")}`,
+          },
         }
       );
 
@@ -309,14 +313,17 @@ export default function NGOPage() {
   // --- Stats ---
   const familiesHelped = request.filter(
     (r) =>
-      r.status === "completed" && r.completedBy === (ngo && typeof ngo === "object" ? ngo._id || ngo.email : "")
+      r.status === "completed" &&
+      r.completedBy ===
+        (ngo && typeof ngo === "object" ? ngo._id || ngo.email : "")
   ).length;
 
   const today = new Date();
   const fulfilledToday = request.filter((r) => {
     if (
       r.status !== "completed" ||
-      r.completedBy !== (ngo && typeof ngo === "object" ? ngo._id || ngo.email : "")
+      r.completedBy !==
+        (ngo && typeof ngo === "object" ? ngo._id || ngo.email : "")
     )
       return false;
     const dateStr = r.createdAt || r.submittedAt;
@@ -335,7 +342,9 @@ export default function NGOPage() {
         <Card className="w-full max-w-md">
           <CardHeader className="text-center">
             <Shield className="h-16 w-16 mx-auto mb-4 text-primary" />
-            <CardTitle className={`text-2xl ${language === "ur" ? "font-urdu" : ""}`}>
+            <CardTitle
+              className={`text-2xl ${language === "ur" ? "font-urdu" : ""}`}
+            >
               {authMode === "login" ? "NGO Login" : "NGO Registration"}
             </CardTitle>
             <CardDescription className={language === "ur" ? "font-urdu" : ""}>

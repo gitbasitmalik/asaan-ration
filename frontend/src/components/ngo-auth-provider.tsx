@@ -1,89 +1,104 @@
-"use client"
+"use client";
 
-import { createContext, useContext, useState, useEffect, type ReactNode } from "react"
-import axios from "axios"
-import { jwtDecode } from "jwt-decode"
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  type ReactNode,
+} from "react";
+import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 
 interface NGO {
-  _id: string
-  name: string
-  email: string
-  phone: string
-  city: string
-  registrationNumber: string
+  _id: string;
+  name: string;
+  email: string;
+  phone: string;
+  city: string;
+  registrationNumber: string;
 }
 
 interface NGOAuthContextType {
-  ngo: NGO | null,
-  login: (email: string, password: string) => Promise<boolean>
-  signup: (ngoData: Omit<NGO, "_id"> & { password: string }) => Promise<boolean>
-  logout: () => void
-  isLoading: boolean
+  ngo: NGO | null;
+  login: (email: string, password: string) => Promise<boolean>;
+  signup: (
+    ngoData: Omit<NGO, "_id"> & { password: string }
+  ) => Promise<boolean>;
+  logout: () => void;
+  isLoading: boolean;
 }
 
-const NGOAuthContext = createContext<NGOAuthContextType | undefined>(undefined)
+const NGOAuthContext = createContext<NGOAuthContextType | undefined>(undefined);
 
 export function NGOAuthProvider({ children }: { children: ReactNode }) {
-  const [ngo, setNGO] = useState<NGO | null>(null)
-  const [isLoading, setIsLoading] = useState(false)
+  const [ngo, setNGO] = useState<NGO | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   // On mount, check for token
   useEffect(() => {
-    const token = localStorage.getItem("ngo_token")
+    const token = localStorage.getItem("ngo_token");
     if (token) {
-      const decoded = jwtDecode<NGO>(token)
-      setNGO(decoded)
+      const decoded = jwtDecode<NGO>(token);
+      setNGO(decoded);
     }
-    setIsLoading(false)
-  }, [])
-
+    setIsLoading(false);
+  }, []);
   const login = async (email: string, password: string): Promise<boolean> => {
-    setIsLoading(true)
+    setIsLoading(true);
     try {
-      const res = await axios.post(`${process.env.VITE_API_BASE_URL}/ngo/login`, { email, password })
+      const res = await axios.post(
+        `https://asaan-ration-d15a.vercel.app/ngo/login`,
+        { email, password }
+      );
       if (res.data.token) {
-        localStorage.setItem("ngo_token", res.data.token)
-        const decoded = jwtDecode<NGO>(res.data.token)
-        setNGO(decoded)
-        setIsLoading(false)
-        return true
+        localStorage.setItem("ngo_token", res.data.token);
+        const decoded = jwtDecode<NGO>(res.data.token);
+        setNGO(decoded);
+        setIsLoading(false);
+        return true;
       }
     } catch (err: any) {
-      setIsLoading(false)
-      throw err.response?.data?.error || "Login failed"
+      setIsLoading(false);
+      throw err.response?.data?.error || "Login failed";
     }
-    setIsLoading(false)
-    return false
-  }
+    setIsLoading(false);
+    return false;
+  };
 
-  const signup = async (ngoData: Omit<NGO, "_id"> & { password: string }): Promise<boolean> => {
-    setIsLoading(true)
+  const signup = async (
+    ngoData: Omit<NGO, "_id"> & { password: string }
+  ): Promise<boolean> => {
+    setIsLoading(true);
     try {
-      await axios.post(`${process.env.VITE_API_URL}/ngo/signup`, ngoData)
-      setIsLoading(false)
-      return true
+      await axios.post(
+        `https://asaan-ration-d15a.vercel.app/ngo/signup`,
+        ngoData
+      );
+      setIsLoading(false);
+      return true;
     } catch (err: any) {
-      setIsLoading(false)
-      throw err.response?.data?.error || "Signup failed"
+      setIsLoading(false);
+      throw err.response?.data?.error || "Signup failed";
     }
-  }
+  };
 
   const logout = () => {
-    localStorage.removeItem("ngo_token")
-    setNGO(null)
-  }
+    localStorage.removeItem("ngo_token");
+    setNGO(null);
+  };
 
   return (
     <NGOAuthContext.Provider value={{ ngo, login, signup, logout, isLoading }}>
       {children}
     </NGOAuthContext.Provider>
-  )
+  );
 }
 
 export function useNGOAuth() {
-  const context = useContext(NGOAuthContext)
+  const context = useContext(NGOAuthContext);
   if (context === undefined) {
-    throw new Error("useNGOAuth must be used within a NGOAuthProvider")
+    throw new Error("useNGOAuth must be used within a NGOAuthProvider");
   }
-  return context
+  return context;
 }
