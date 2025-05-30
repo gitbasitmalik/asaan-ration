@@ -17,7 +17,7 @@ const MONGO_URI = process.env.MONGO_URI;
 app.use(express.json());
 app.use(
   cors({
-    origin: "http://localhost:5173", // Update to your frontend domain in production
+    origin: "https://asaan-ration.vercel.app", // Update to your frontend domain in production
     credentials: true,
   })
 );
