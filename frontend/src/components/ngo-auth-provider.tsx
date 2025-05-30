@@ -40,7 +40,7 @@ export function NGOAuthProvider({ children }: { children: ReactNode }) {
   const login = async (email: string, password: string): Promise<boolean> => {
     setIsLoading(true)
     try {
-      const res = await axios.post(`${process.env.VITE_API_URL}/ngo/login`, { email, password })
+      const res = await axios.post(`${process.env.VITE_API_BASE_URL}/ngo/login`, { email, password })
       if (res.data.token) {
         localStorage.setItem("ngo_token", res.data.token)
         const decoded = jwtDecode<NGO>(res.data.token)
